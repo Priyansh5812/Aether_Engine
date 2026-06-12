@@ -1,26 +1,25 @@
 #include "EDebug.h"
 
-
-	std::shared_ptr<spdlog::logger>Aether::LogBase::_logger = nullptr;
-	bool Aether::LogBase::isInitialized = false;
+Aether::Logger* Aether::EDebug::_logger = nullptr;
 
 
-	void Aether::EDebug::Init()
+void Aether::EDebug::Init()
+{
+	if (_logger)
 	{
-		if (LogBase::isInitialized)
-		{
-			LogBase::_logger->info("Engine Logger Already Initialized...");
-			return;
-		}
-
-		LogBase::_logger = spdlog::stderr_color_mt("CORE");
-		LogBase::isInitialized = !(LogBase::_logger == nullptr);
-		LogBase::_logger->set_pattern("[%H:%M:%S] [%s : %#] %v");
-		LogBase::_logger->info("Logger Successfully Initialized !!!");
+		LogWarning("Logger Reinitialization attempted!!!");
+		return;
 	}
-	
-	void Aether::EDebug::Dispose()
+	_logger = new Logger(std::string("Core"));
+}
+
+void Aether::EDebug::Dispose()
+{
+	if (!_logger)
 	{
-		LogBase::isInitialized = (bool)(LogBase::_logger = nullptr);
+		return;
 	}
 
+	LogWarning("Logger Disposed");
+	delete _logger;
+}

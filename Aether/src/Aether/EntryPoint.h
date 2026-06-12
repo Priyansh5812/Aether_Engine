@@ -1,18 +1,26 @@
 #pragma once
 #ifdef AE_WINDOWS
-#include "EDebug.h"
 #include <iostream>
-extern Aether::Application* Aether::CreateApplication();
+#include "EDebug.h"
+#include <memory>
+//#include "Debug.h"
+using namespace Aether;
+extern Application* CreateApplication();
 
 int main()
 {	
-	Aether::EDebug::Init();
-	Aether::EDebug::Log("Logging Engine");
-	std::cout << "Aether Engine Started !!!" << std::endl;
-	Aether::Application* app = Aether::CreateApplication();
-	
+	Debug::Init();
+	Debug::Log("Test Log");
+	Debug::LogWarning("Test Warning");
+	Debug::LogError("Test Error");
+	EDebug::Init();
+	EDebug::Log("Test Log");
+	EDebug::LogWarning("Test Warning");
+	EDebug::LogError("Test Error");
+	Application* app = Aether::CreateApplication();
 	app->Run();
-	Aether::EDebug::Dispose();
+	Debug::Dispose();
+	EDebug::Dispose();
 	delete app;
 	return 0;
 }

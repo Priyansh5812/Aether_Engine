@@ -11,16 +11,19 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Aether\EDebug.h" />
+    <ClInclude Include="src\Aether\Debug.h" />
+    <ClInclude Include="src\Aether\Logger.h" />
     <ClInclude Include="src\Aether.h" />
     <ClInclude Include="src\Aether\Application.h" />
     <ClInclude Include="src\Aether\Core.h" />
-    <ClInclude Include="src\Aether\EDebug.h" />
     <ClInclude Include="src\Aether\EntryPoint.h" />
-    <ClInclude Include="src\Aether\LogBase.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Aether\Application.cpp" />
     <ClCompile Include="src\Aether\EDebug.cpp" />
+    <ClCompile Include="src\Aether\Logger.cpp" />
+    <ClCompile Include="src\Aether\Debug.cpp" />
+    <ClCompile Include="src\Aether\Application.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -63,7 +66,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>AE_WINDOWS;AE_BUILD_DLL;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>AE_WINDOWS;AE_BUILD_DLL;SPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_TRACE;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>

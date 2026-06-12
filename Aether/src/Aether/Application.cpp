@@ -1,5 +1,4 @@
 #include "Application.h"
-
 namespace Aether
 {
 	Application::Application()
