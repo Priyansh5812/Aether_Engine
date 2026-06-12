@@ -1,0 +1,3 @@
+[submodule "Aether/src/ThirdParty/spdlog"]
+	path = Aether/src/ThirdParty/spdlog
+	url = https://github.com/gabime/spdlog.git
