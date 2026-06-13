@@ -71,3 +71,8 @@ Testing/
 /.vs
 /bin-int
 /bin
+*.tlog
+*.vcxproj
+*.vcxproj
+*.user
+*.filters
