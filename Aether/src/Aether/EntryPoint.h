@@ -14,7 +14,7 @@ int main()
 	Debug::LogWarning("Test Warning");
 	Debug::LogError("Test Error");
 	EDebug::Init();
-	EDebug::Log("Test Log");
+	EDebug::Log("Test Log {0}" , 10);
 	EDebug::LogWarning("Test Warning");
 	EDebug::LogError("Test Error");
 	Application* app = Aether::CreateApplication();

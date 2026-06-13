@@ -69,3 +69,5 @@ Testing/
 .cache/
 *.vsidx
 /.vs
+/bin-int
+/bin
