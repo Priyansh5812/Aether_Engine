@@ -42,10 +42,25 @@ namespace Aether
 				throw std::runtime_error("Delegate is NULL");
 			}
 
+			template<ReturnType(* method)(Params...)>
+			bool CheckEquality()
+			{
+				return _function == &Delegate<ReturnType, Params...>::template MethodStub<method>;
+			}
+
+			template<typename T, ReturnType(T::* method)(Params...)>
+			bool CheckEquality(T* obj)
+			{
+				return this->obj == obj && _function == &Delegate<ReturnType, Params...>::template MemberMethodStub<T, method>;			
+			}
+
 		private:
 
 			using StubSignature =
 				ReturnType(Delegate<ReturnType, Params...>::*)(Params...);
+
+			using MethodCheckSignature = bool (Delegate<ReturnType, Params...>::*)();
+
 			
 			template<ReturnType(*method)(Params...)>
 			ReturnType MethodStub(Params... params)
