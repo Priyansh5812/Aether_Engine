@@ -11,6 +11,7 @@ void Aether::EDebug::Init()
 		return;
 	}
 	_logger = new Logger(std::string("Core"));
+	Log("Initialized");
 }
 
 void Aether::EDebug::Dispose()
@@ -19,7 +20,6 @@ void Aether::EDebug::Dispose()
 	{
 		return;
 	}
-
 	LogWarning("Logger Disposed");
 	delete _logger;
 }

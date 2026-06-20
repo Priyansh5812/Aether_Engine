@@ -13,7 +13,10 @@ void Aether::Debug::Init()
 	}
 
 	_logger = new Logger(std::string("Client"));
+	Log("Initialized");
 }
+
+
 
 void Aether::Debug::Dispose()
 {
