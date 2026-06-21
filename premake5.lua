@@ -42,7 +42,7 @@ project "Aether"
 	
 
 	filter "system:windows"
-		cppdialect "C++17"
+		cppdialect "C++20"
 		staticruntime "On"
 		systemversion "latest"
 		defines
@@ -69,6 +69,9 @@ project "Aether"
 
 	filter {"system:windows"}
 		buildoptions "/utf-8"
+		
+	filter "action:vs*"
+    buildoptions { "/Zc:__cplusplus" }
 
 project "Sandbox"
 	location "Sandbox"
@@ -96,7 +99,7 @@ project "Sandbox"
 	}
 
 	filter "system:windows"
-		cppdialect "C++17"
+		cppdialect "C++20"
 		staticruntime "On"
 		systemversion "latest"
 		defines
@@ -118,3 +121,6 @@ project "Sandbox"
 
 	filter {"system:windows"}
 		buildoptions "/utf-8"
+		
+	filter "action:vs*"
+    buildoptions { "/Zc:__cplusplus" }

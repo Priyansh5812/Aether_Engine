@@ -1,6 +1,7 @@
 #pragma once
 #include "Delegate.h"
 #include "vector"
+#include "Aether/Log/EDebug.h"
 namespace Aether
 {
 	namespace EventSystems
