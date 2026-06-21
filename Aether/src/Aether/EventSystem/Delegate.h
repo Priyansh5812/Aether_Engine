@@ -35,7 +35,13 @@ namespace Aether
 			ReturnType Invoke(Params... params)
 			{	
 				if (this->_function)
-				{
+				{	
+					if constexpr (std::is_void_v<ReturnType>)
+					{
+						(this->*_function)(params...);
+						return;
+					}
+
 					return (this->*_function)(params...);
 				}
 
@@ -70,7 +76,9 @@ namespace Aether
 
 			template<typename T, ReturnType(T::*method)(Params...)>
 			ReturnType MemberMethodStub(Params... params)
-			{
+			{	
+				
+
 				return (static_cast<T*>(obj)->*method)(params...);
 			}
 
