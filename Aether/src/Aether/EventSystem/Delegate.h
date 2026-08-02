@@ -15,21 +15,51 @@ namespace Aether
 
 		template<typename ReturnType , typename... Params>
 		struct Delegate
-		{	
-		
+		{
+
 		public:
 			template<ReturnType(*method)(Params...)>
 			void Bind()
-			{	
-				_function = &Delegate<ReturnType , Params...>::template MethodStub<method>;
+			{
+				DestroyAnyLambdaClosures();
+				_function = &Delegate<ReturnType, Params...>::template MethodStub<method>;
 			}
 
-			template<typename T , ReturnType(T::*method)(Params...)>
+			template<typename T, ReturnType(T::* method)(Params...)>
 			void Bind(T* obj)
 			{	
+				DestroyAnyLambdaClosures();
 				this->obj = obj;
-				_function = &Delegate<ReturnType, Params...>::template MemberMethodStub<T , method>;
+				_function = &Delegate<ReturnType, Params...>::template MemberMethodStub<T, method>;
 			}
+
+#pragma region Lambda Creation And Destruction
+			template<typename Lambda>
+			void Bind(const Lambda& lambdaObj)
+			{	
+				DestroyAnyLambdaClosures();
+				LambdaBindInternal<Lambda, &Lambda::operator()>(new Lambda(lambdaObj));
+			}
+
+			template<typename T, ReturnType(T::* method)(Params...) const>
+			void LambdaBindInternal(T* obj)
+			{
+				this->obj = obj;
+				_function = &Delegate<ReturnType, Params...>::template LambdaMethodStub<T, method>;
+				__lambdaClosureDestruction = &Delegate<ReturnType, Params...>::template LambdaDestructionStub<T>;
+			}
+
+			void DestroyAnyLambdaClosures()
+			{
+				if (__lambdaClosureDestruction)
+				{
+					(this->*__lambdaClosureDestruction)();
+					__lambdaClosureDestruction = nullptr;
+					obj = nullptr;
+					_function = nullptr;
+				}
+			}
+#pragma endregion
 
 
 			ReturnType Invoke(Params... params)
@@ -77,17 +107,32 @@ namespace Aether
 			template<typename T, ReturnType(T::*method)(Params...)>
 			ReturnType MemberMethodStub(Params... params)
 			{	
-				
-
 				return (static_cast<T*>(obj)->*method)(params...);
 			}
 
+			template<typename T, ReturnType(T::*method)(Params...) const>
+			ReturnType LambdaMethodStub(Params... params)
+			{	
+				return (static_cast<T*>(obj)->*method)(params...);
+			}
+
+			template<typename T>
+			void LambdaDestructionStub()
+			{
+				delete static_cast<T*>(obj);
+			}
+
+		public:
+			~Delegate()
+			{
+				DestroyAnyLambdaClosures();
+			}
 
 		private:
 
 			void* obj = nullptr;
 			StubSignature _function = nullptr;
-			
+			void (Delegate<ReturnType, Params...>::* __lambdaClosureDestruction)()  = nullptr;
 		};
 	}
 }
